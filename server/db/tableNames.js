@@ -13,4 +13,11 @@ module.exports = {
             ACTIVE_STATUS: (short) => short ? `activeStatus` : `user.activeStatus`,
         },
     },
+    FRIENDS: {
+        tableName: `friends`,
+        columns: {
+            USER_ID: (short) => short ? `userId` : `friends.userId`,
+            USER_ID2: (short) => short ? `userId2` : `friends.userId2`,
+        },
+    },
 }

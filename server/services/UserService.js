@@ -1,6 +1,7 @@
 const UserRepository = require("../repositories/UserRepository");
 const bcrypt = require("bcrypt");
 const TokenService = require("./TokenService");
+const FriendsRepository = require("../repositories/FriendsRepository");
 
 class UserService {
     static async create(email, password) {
@@ -23,6 +24,21 @@ class UserService {
         }
         delete user.password;
         return TokenService.createAccessToken(user);
+    }
+
+    static async addFriend(userId, userId2) {
+        if (userId === userId2) {
+            throw new Error("Невозможно добавить себя в друзья!");
+        }
+        const isFriends = await FriendsRepository.findFriends(userId, userId2);
+        const isFriendsInverse = await FriendsRepository.findFriends(userId2, userId);
+        if (isFriends || isFriendsInverse) {
+            throw new Error("Пользователи уже друзья!");
+        }
+        await FriendsRepository.createFriends(userId, userId2);
+    }
+
+    static async getFriends(userId, userId2) {
     }
 }
 
