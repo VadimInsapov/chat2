@@ -1,14 +1,33 @@
 const {body} = require('express-validator')
+const UserService = require('../services/UserService');
+const User = require("../models/User");
 
 class AuthController {
     async login(req, res) {
-        let {email, password} = req.body;
-        res.status(200).json({msg: 'Hello World!'});
+        try {
+            const {email, password} = req.body;
+            const token = await UserService.login(email, password);
+            res.status(200).json({
+                msg: 'Пользователь авторизован!',
+                token: token
+            });
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({errors: [{msg: e.message}]});
+        }
     }
 
     async registration(req, res) {
-        let {email, password} = req.body;
-        res.status(200).json({msg: 'Hello World!'});
+        try {
+            let {email, password} = req.body;
+            await UserService.create(email, password);
+            res.status(200).json({
+                msg: 'Пользователь успешно зарегистрирован!',
+            });
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({errors: [{msg: e.message}]});
+        }
     }
 
     validate() {
