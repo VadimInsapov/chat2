@@ -38,7 +38,13 @@ class UserService {
         await FriendsRepository.createFriends(userId, userId2);
     }
 
-    static async getFriends(userId, userId2) {
+    static async getFriends(userId) {
+        const user = await UserRepository.findById(userId);
+        if (!user) {
+            throw new Error(`Пользователя с id=${userId} не существует!`);
+        }
+        const friends = await UserRepository.getFriends(userId);
+        return friends;
     }
 }
 

@@ -8,4 +8,10 @@ userRouter.put(
     validateMiddleware,
     userController.addFriend
 );
+userRouter.get(
+    '/friends/:userId',
+    userController.validate("getFriends"),
+    validateMiddleware,
+    userController.getFriends
+);
 module.exports = userRouter;

@@ -1,4 +1,4 @@
-const {body} = require('express-validator')
+const {body, param} = require('express-validator')
 const UserService = require('../services/UserService');
 
 class UserController {
@@ -15,9 +15,23 @@ class UserController {
         }
     }
 
+    async getFriends(req, res) {
+        try {
+            const {userId} = req.params;
+            const friends = await UserService.getFriends(userId);
+            res.status(200).json({
+                msg: 'Друзья успешно получены!',
+                friends
+            });
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({errors: [{msg: e.message}]});
+        }
+    }
+
     validate(method) {
-        switch (method){
-            case "addFriend" :{
+        switch (method) {
+            case "addFriend" : {
                 return [
                     body('userId')
                         .not().isEmpty()
@@ -25,6 +39,13 @@ class UserController {
                     body('userId2')
                         .not().isEmpty()
                         .withMessage('Пользователь 2 обязателен!'),
+                ]
+            }
+            case "getFriends" : {
+                return [
+                    param('userId')
+                        .not().isEmpty()
+                        .withMessage('Пользователь обязателен в запросе!'),
                 ]
             }
         }
