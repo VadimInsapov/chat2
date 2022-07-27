@@ -7,6 +7,7 @@
     "start": "nodemon server.js",
     "migrate": "knex migrate:latest --knexfile db/.js",
     "rollback": "knex migrate:rollback --knexfile db/knexfile.js",
+    "rollback-all": "knex migrate:rollback --all --knexfile db/knexfile.js",
     "seed": "knex seed:run --knexfile db/knexfile.js"
   },
   "author": "",

@@ -20,4 +20,20 @@ module.exports = {
             USER_ID2: (short) => short ? `userId2` : `friends.userId2`,
         },
     },
+    CHAT: {
+        tableName: `chat`,
+        columns: {
+            ID: (short) => short ? `id` : `user.id`,
+            NAME: (short) => short ? `name` : `chat.name`,
+            LOGO: (short) => short ? `logo` : `chat.logo`,
+        },
+    },
+    USER_CHAT: {
+        tableName: `user_chat`,
+        columns: {
+            USER_ID: (short) => short ? `userId` : `user_chat.userId`,
+            CHAT_ID: (short) => short ? `chatId` : `user_chat.chatId`,
+            IS_ADMIN: (short) => short ? `isAdmin` : `user_chat.isAdmin`,
+        },
+    },
 }
