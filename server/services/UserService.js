@@ -46,6 +46,19 @@ class UserService {
         const friends = await UserRepository.getFriends(userId);
         return friends;
     }
+
+    static async getUsersByFullName(name) {
+        const nameArray = name.split(/\s+/);
+        const lastName = nameArray[1];
+        if (!lastName) {
+            const users = await await UserRepository.getUsersByNameOrLastName(name);
+            return users;
+        }
+        name = nameArray[0];
+        const users = await UserRepository.getUsersByFullName(name, lastName);
+        console.log(users);
+        return users;
+    }
 }
 
 module.exports = UserService;

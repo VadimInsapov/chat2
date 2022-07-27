@@ -54,6 +54,30 @@ class UserRepository {
             .join(USER.tableName, USER.columns.ID(), `${friendsIds}.${FRIENDS.columns.USER_ID(true)}`)
         return res;
     }
+
+    static async getUsersByNameOrLastName(nameOrLastName) {
+        const res = await knex(USER.tableName)
+            .whereILike(USER.columns.NAME(true), `${nameOrLastName}%`)
+            .orWhereILike(USER.columns.LAST_NAME(true), `${nameOrLastName}%`)
+            .returning('*');
+        return res;
+    }
+
+    static async getUsersByFullName(name, lastName) {
+        const res = await knex(USER.tableName)
+            .where((builder) =>
+                builder
+                    .whereILike(USER.columns.LAST_NAME(true), `${lastName}%`)
+                    .andWhereILike(USER.columns.NAME(true), `${name}%`)
+            )
+            .orWhere((builder) =>
+                builder
+                    .whereILike(USER.columns.LAST_NAME(true), `${name}%`)
+                    .andWhereILike(USER.columns.NAME(true), `${lastName}%`)
+            )
+            .returning('*');
+        return res;
+    }
 }
 
 module.exports = UserRepository;

@@ -1,4 +1,4 @@
-const {body, param} = require('express-validator')
+const {body, param, query} = require('express-validator')
 const UserService = require('../services/UserService');
 
 class UserController {
@@ -29,6 +29,20 @@ class UserController {
         }
     }
 
+    async getUsersByName(req, res) {
+        try {
+            const {name} = req.query;
+            const users = await UserService.getUsersByFullName(name);
+            res.status(200).json({
+                msg: 'Пользователи успешно получены!',
+                users
+            });
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({errors: [{msg: e.message}]});
+        }
+    }
+
     validate(method) {
         switch (method) {
             case "addFriend" : {
@@ -46,6 +60,13 @@ class UserController {
                     param('userId')
                         .not().isEmpty()
                         .withMessage('Пользователь обязателен в запросе!'),
+                ]
+            }
+            case "getUsersByName" : {
+                return [
+                    query('name')
+                        .not().isEmpty()
+                        .withMessage('Имя пользователя обязано быть в запросе!'),
                 ]
             }
         }

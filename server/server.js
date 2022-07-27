@@ -2,7 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config()
-const route = require("./routes/router");
+const route = require("./routes/Router");
 const app = express();
 const knexConfig = require('./db/knexConfig');
 const {USER} = require("./db/tableNames");
