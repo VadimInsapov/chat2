@@ -15,6 +15,19 @@ class UserController {
         }
     }
 
+    async deleteFriend(req, res) {
+        try {
+            const {userId, userId2} = req.body;
+            await UserService.deleteFriend(userId, userId2);
+            res.status(200).json({
+                msg: 'Пользователь удалён из друзей!',
+            });
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({errors: [{msg: e.message}]});
+        }
+    }
+
     async getFriends(req, res) {
         try {
             const {userId} = req.params;
@@ -45,7 +58,7 @@ class UserController {
 
     validate(method) {
         switch (method) {
-            case "addFriend" : {
+            case "addOrDeleteFriend" : {
                 return [
                     body('userId')
                         .not().isEmpty()

@@ -30,12 +30,22 @@ class UserService {
         if (userId === userId2) {
             throw new Error("Невозможно добавить себя в друзья!");
         }
-        const isFriends = await FriendsRepository.findFriends(userId, userId2);
-        const isFriendsInverse = await FriendsRepository.findFriends(userId2, userId);
-        if (isFriends || isFriendsInverse) {
+        const coupleFriends = await FriendsRepository.findFriends(userId, userId2);
+        if (coupleFriends) {
             throw new Error("Пользователи уже друзья!");
         }
         await FriendsRepository.createFriends(userId, userId2);
+    }
+
+    static async deleteFriend(userId, userId2) {
+        if (userId === userId2) {
+            throw new Error("Невозможно удалить себя из друзей!");
+        }
+        const coupleFriends = await FriendsRepository.findFriends(userId, userId2);
+        if (!coupleFriends) {
+            throw new Error("Пользователи не были друзьями!");
+        }
+        await FriendsRepository.deleteFriends(coupleFriends);
     }
 
     static async getFriends(userId) {
