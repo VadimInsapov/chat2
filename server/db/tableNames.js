@@ -23,7 +23,7 @@ module.exports = {
     CHAT: {
         tableName: `chat`,
         columns: {
-            ID: (short) => short ? `id` : `user.id`,
+            ID: (short) => short ? `id` : `chat.id`,
             NAME: (short) => short ? `name` : `chat.name`,
             LOGO: (short) => short ? `logo` : `chat.logo`,
         },

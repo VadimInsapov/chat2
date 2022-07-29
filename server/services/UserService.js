@@ -49,12 +49,17 @@ class UserService {
     }
 
     static async getFriends(userId) {
+        const user = this.tryToGetUserById(userId);
+        const friends = await UserRepository.getFriends(userId);
+        return friends;
+    }
+
+    static async tryToGetUserById(userId){
         const user = await UserRepository.findById(userId);
         if (!user) {
             throw new Error(`Пользователя с id=${userId} не существует!`);
         }
-        const friends = await UserRepository.getFriends(userId);
-        return friends;
+        return user;
     }
 
     static async getUsersByFullName(name) {
