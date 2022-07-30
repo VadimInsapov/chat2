@@ -17,4 +17,11 @@ chatRouter.post(
     validateMiddleware,
     chatController.addUser
 );
+chatRouter.put(
+    '/appoint-role',
+    authMiddleware,
+    chatController.validate("appointUserRoleInChat"),
+    validateMiddleware,
+    chatController.appointUserRoleInChat
+);
 module.exports = chatRouter;

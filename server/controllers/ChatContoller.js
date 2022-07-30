@@ -16,7 +16,7 @@ class ChatController {
         }
     }
 
-    async addUser (req, res) {
+    async addUser(req, res) {
         try {
             const {chatId, userId} = req.body;
             const {user: authUser} = req;
@@ -29,6 +29,21 @@ class ChatController {
             res.status(400).json({errors: [{msg: e.message}]});
         }
     }
+
+    async appointUserRoleInChat(req, res) {
+        try {
+            const {chatId, userId, isAdmin} = req.body;
+            const {user: authUser} = req;
+            await ChatService.appointUserRoleInChat(authUser, chatId, userId, isAdmin);
+            res.status(200).json({
+                msg: 'Роль пользователя в чате изменена!',
+            });
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({errors: [{msg: e.message}]});
+        }
+    }
+
 
     validate(method) {
         switch (method) {
@@ -47,6 +62,19 @@ class ChatController {
                     body('userId')
                         .not().isEmpty()
                         .withMessage('ID добавляемого пользователя обязателен!'),
+                ]
+            }
+            case "appointUserRoleInChat" : {
+                return [
+                    body('chatId')
+                        .not().isEmpty()
+                        .withMessage('ID чата обязателен!'),
+                    body('userId')
+                        .not().isEmpty()
+                        .withMessage('ID добавляемого пользователя обязателен!'),
+                    body('isAdmin')
+                        .not().isEmpty()
+                        .withMessage('Роль пользователя обязательна!'),
                 ]
             }
         }

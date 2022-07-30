@@ -46,6 +46,13 @@ class ChatRepository {
             });
         return res[0];
     }
+
+    static async appointUserRole(userId, chatId, isAdmin) {
+        const res = await knex(USER_CHAT.tableName)
+            .where({userId, chatId})
+            .update({isAdmin});
+        return res[0];
+    }
 }
 
 module.exports = ChatRepository;
