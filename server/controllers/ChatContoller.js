@@ -4,8 +4,9 @@ const ChatService = require("../services/ChatService");
 class ChatController {
     async create(req, res) {
         try {
-            const {name, userId} = req.body;
-            await ChatService.create(name, userId);
+            const {name} = req.body;
+            const {user: authUser} = req;
+            await ChatService.create(authUser.id, name);
             res.status(200).json({
                 msg: 'Чат создан!',
             });
@@ -15,6 +16,17 @@ class ChatController {
         }
     }
 
+    async addUserToChat (req, res) {
+        try {
+            const {name} = req.body;
+            res.status(200).json({
+                msg: 'Чат создан!',
+            });
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({errors: [{msg: e.message}]});
+        }
+    }
 
     validate(method) {
         switch (method) {
@@ -23,9 +35,6 @@ class ChatController {
                     body('name')
                         .not().isEmpty()
                         .withMessage('Название чата обязательно!'),
-                    body('userId')
-                        .not().isEmpty()
-                        .withMessage('Пользователь создающий чат обязателен!'),
                 ]
             }
         }

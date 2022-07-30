@@ -4,8 +4,9 @@ const UserService = require('../services/UserService');
 class UserController {
     async addFriend(req, res) {
         try {
-            const {userId, userId2} = req.body;
-            await UserService.addFriend(userId, userId2);
+            const {user: authUser} = req;
+            const {userId} = req.body;
+            await UserService.addFriend(authUser.id, userId);
             res.status(200).json({
                 msg: 'Пользователь добавлен в друзья',
             });
@@ -17,8 +18,9 @@ class UserController {
 
     async deleteFriend(req, res) {
         try {
-            const {userId, userId2} = req.body;
-            await UserService.deleteFriend(userId, userId2);
+            const {user: authUser} = req;
+            const {userId} = req.body;
+            await UserService.deleteFriend(authUser.id, userId);
             res.status(200).json({
                 msg: 'Пользователь удалён из друзей!',
             });
@@ -30,8 +32,8 @@ class UserController {
 
     async getFriends(req, res) {
         try {
-            const {userId} = req.params;
-            const friends = await UserService.getFriends(userId);
+            const {user: authUser} = req;
+            const friends = await UserService.getFriends(authUser.id);
             res.status(200).json({
                 msg: 'Друзья успешно получены!',
                 friends
@@ -62,24 +64,14 @@ class UserController {
                 return [
                     body('userId')
                         .not().isEmpty()
-                        .withMessage('Пользователь 1 обязателен!'),
-                    body('userId2')
-                        .not().isEmpty()
-                        .withMessage('Пользователь 2 обязателен!'),
-                ]
-            }
-            case "getFriends" : {
-                return [
-                    param('userId')
-                        .not().isEmpty()
-                        .withMessage('Пользователь обязателен в запросе!'),
+                        .withMessage('Добавяемый в друзья пользователь обязателен!'),
                 ]
             }
             case "getUsersByName" : {
                 return [
                     query('name')
                         .not().isEmpty()
-                        .withMessage('Имя пользователя обязано быть в запросе!'),
+                        .withMessage('Имя искомого пользователя обязано быть в запросе!'),
                 ]
             }
         }
