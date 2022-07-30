@@ -6,7 +6,7 @@ class ChatController {
         try {
             const {name} = req.body;
             const {user: authUser} = req;
-            await ChatService.create(authUser.id, name);
+            await ChatService.create(authUser, name);
             res.status(200).json({
                 msg: 'Чат создан!',
             });
@@ -16,11 +16,13 @@ class ChatController {
         }
     }
 
-    async addUserToChat (req, res) {
+    async addUser (req, res) {
         try {
-            const {name} = req.body;
+            const {chatId, userId} = req.body;
+            const {user: authUser} = req;
+            await ChatService.addUser(authUser, chatId, userId);
             res.status(200).json({
-                msg: 'Чат создан!',
+                msg: 'Пользователь добавлен в чат!',
             });
         } catch (e) {
             console.log(e);
@@ -35,6 +37,16 @@ class ChatController {
                     body('name')
                         .not().isEmpty()
                         .withMessage('Название чата обязательно!'),
+                ]
+            }
+            case "addUser" : {
+                return [
+                    body('chatId')
+                        .not().isEmpty()
+                        .withMessage('ID чата обязателен!'),
+                    body('userId')
+                        .not().isEmpty()
+                        .withMessage('ID добавляемого пользователя обязателен!'),
                 ]
             }
         }

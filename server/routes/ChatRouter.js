@@ -10,4 +10,11 @@ chatRouter.post(
     validateMiddleware,
     chatController.create
 );
+chatRouter.post(
+    '/add-user',
+    authMiddleware,
+    chatController.validate("addUser"),
+    validateMiddleware,
+    chatController.addUser
+);
 module.exports = chatRouter;
