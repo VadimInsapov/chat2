@@ -2,7 +2,7 @@ const {body, param, query} = require('express-validator')
 const UserService = require('../services/UserService');
 
 class UserController {
-    async addFriend(req, res) {
+    async addFriend(req, res, next) {
         try {
             const {user: authUser} = req;
             const {userId} = req.body;
@@ -11,12 +11,11 @@ class UserController {
                 msg: 'Пользователь добавлен в друзья',
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 
-    async deleteFriend(req, res) {
+    async deleteFriend(req, res, next) {
         try {
             const {user: authUser} = req;
             const {userId} = req.body;
@@ -25,12 +24,11 @@ class UserController {
                 msg: 'Пользователь удалён из друзей!',
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 
-    async getFriends(req, res) {
+    async getFriends(req, res, next) {
         try {
             const {user: authUser} = req;
             const friends = await UserService.getFriends(authUser.id);
@@ -39,12 +37,11 @@ class UserController {
                 friends
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 
-    async getUsersByName(req, res) {
+    async getUsersByName(req, res, next) {
         try {
             const {name} = req.query;
             const users = await UserService.getUsersByFullName(name);
@@ -53,8 +50,7 @@ class UserController {
                 users
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 

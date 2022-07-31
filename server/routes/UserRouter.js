@@ -1,6 +1,6 @@
 const userController = require("../controllers/UserContoller");
-const validateMiddleware = require("../middlewares/ValidateMiddlware");
-const authMiddleware = require("../middlewares/AuthMiddlware");
+const validateMiddleware = require("../middlewares/ValidateMiddleware");
+const authMiddleware = require("../middlewares/AuthMiddleware");
 const userRouter = require("express").Router();
 
 userRouter.get(

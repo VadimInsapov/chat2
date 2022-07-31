@@ -2,7 +2,7 @@ const {body} = require('express-validator')
 const UserService = require('../services/UserService');
 
 class AuthController {
-    async login(req, res) {
+    async login(req, res, next) {
         try {
             const {email, password} = req.body;
             const token = await UserService.login(email, password);
@@ -11,12 +11,11 @@ class AuthController {
                 token: token
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 
-    async registration(req, res) {
+    async registration(req, res, next) {
         try {
             let {email, password} = req.body;
             await UserService.create(email, password);
@@ -24,8 +23,7 @@ class AuthController {
                 msg: 'Пользователь успешно зарегистрирован!',
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 

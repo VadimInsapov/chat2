@@ -2,7 +2,7 @@ const {body} = require('express-validator')
 const ChatService = require("../services/ChatService");
 
 class ChatController {
-    async create(req, res) {
+    async create(req, res, next) {
         try {
             const {name} = req.body;
             const {user: authUser} = req;
@@ -11,12 +11,11 @@ class ChatController {
                 msg: 'Чат создан!',
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 
-    async addUser(req, res) {
+    async addUser(req, res, next) {
         try {
             const {chatId, userId} = req.body;
             const {user: authUser} = req;
@@ -25,12 +24,11 @@ class ChatController {
                 msg: 'Пользователь добавлен в чат!',
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 
-    async appointUserRoleInChat(req, res) {
+    async appointUserRoleInChat(req, res, next) {
         try {
             const {chatId, userId, isAdmin} = req.body;
             const {user: authUser} = req;
@@ -39,8 +37,7 @@ class ChatController {
                 msg: 'Роль пользователя в чате изменена!',
             });
         } catch (e) {
-            console.log(e);
-            res.status(400).json({errors: [{msg: e.message}]});
+            next(e);
         }
     }
 
