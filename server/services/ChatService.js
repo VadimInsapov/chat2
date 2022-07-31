@@ -20,7 +20,7 @@ class ChatService {
         await ChatRepository.addUser(userId, chatId);
     }
 
-    static async appointUserRoleInChat(authUser, chatId, userId, isAdmin) {
+    static async appointUserRole(authUser, chatId, userId, isAdmin) {
         const authUserId = authUser.id;
         const existsUserInChat = await ChatRepository.findUserChat(userId, chatId);
         if (!existsUserInChat) {
@@ -39,6 +39,28 @@ class ChatService {
         if (!authUserIsAdminInChat) {
             throw ApiError.BadRequest("У авторизованного пользователя нет прав администратора в чате!");
         }
+    }
+
+    static async deleteUser(chatId, userId) {
+        await this.confirmPresenceUserInChat(chatId, userId);
+        await ChatRepository.deleteUser(userId, chatId);
+    }
+
+    static async confirmPresenceUserInChat(chatId, userId){
+        const existsUserInChat = await ChatRepository.findUserChat(userId, chatId);
+        if (!existsUserInChat) {
+            throw ApiError.BadRequest("Пользователя не существвует в чате!");
+        }
+    }
+
+    static async getUsers(authUserId, chatId) {
+        await this.confirmPresenceUserInChat(chatId, authUserId);
+        const chat = await ChatRepository.findChat(chatId);
+        if (!chat) {
+            throw ApiError.BadRequest("Чата с заданным ID не существует!");
+        }
+        const usersInChat = await ChatRepository.getUsers(chatId);
+        return usersInChat;
     }
 }
 

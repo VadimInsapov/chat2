@@ -22,6 +22,20 @@ chatRouter.put(
     authMiddleware,
     chatController.validate("appointUserRoleInChat"),
     validateMiddleware,
-    chatController.appointUserRoleInChat
+    chatController.appointUserRole
+);
+chatRouter.delete(
+    '/delete-user',
+    authMiddleware,
+    chatController.validate("deleteUser"),
+    validateMiddleware,
+    chatController.deleteUser
+);
+chatRouter.get(
+    '/:chatId',
+    authMiddleware,
+    chatController.validate("getUsers"),
+    validateMiddleware,
+    chatController.getUsers
 );
 module.exports = chatRouter;

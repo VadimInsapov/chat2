@@ -1,5 +1,5 @@
 const knex = require("../db/knexConfig");
-const {CHAT, USER_CHAT} = require("../db/tableNames");
+const {CHAT, USER_CHAT, USER} = require("../db/tableNames");
 
 class ChatRepository {
     static async createChat(name, userId) {
@@ -52,6 +52,27 @@ class ChatRepository {
             .where({userId, chatId})
             .update({isAdmin});
         return res[0];
+    }
+
+    static async deleteUser(userId, chatId) {
+        const res = await knex(USER_CHAT.tableName)
+            .where({userId, chatId})
+            .del();
+        return res[0];
+    }
+
+    static async findChat(chatId) {
+        const res = await knex(CHAT.tableName)
+            .where({[CHAT.columns.ID()]: chatId});
+        return res[0];
+    }
+
+    static async getUsers(chatId) {
+        const res = await knex(USER_CHAT.tableName)
+            .join(USER.tableName, USER.columns.ID(), USER_CHAT.columns.USER_ID())
+            .where({[USER_CHAT.columns.CHAT_ID()]: chatId})
+            .returning('*');
+        return res;
     }
 }
 

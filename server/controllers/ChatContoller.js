@@ -1,4 +1,4 @@
-const {body} = require('express-validator')
+const {body, param} = require('express-validator')
 const ChatService = require("../services/ChatService");
 
 class ChatController {
@@ -28,11 +28,11 @@ class ChatController {
         }
     }
 
-    async appointUserRoleInChat(req, res, next) {
+    async appointUserRole(req, res, next) {
         try {
             const {chatId, userId, isAdmin} = req.body;
             const {user: authUser} = req;
-            await ChatService.appointUserRoleInChat(authUser, chatId, userId, isAdmin);
+            await ChatService.appointUserRole(authUser, chatId, userId, isAdmin);
             res.status(200).json({
                 msg: 'Роль пользователя в чате изменена!',
             });
@@ -41,6 +41,31 @@ class ChatController {
         }
     }
 
+    async deleteUser(req, res, next) {
+        try {
+            const {chatId, userId} = req.body;
+            await ChatService.deleteUser(chatId, userId);
+            res.status(200).json({
+                msg: 'Пользователь удалён из чата!',
+            });
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getUsers(req, res, next) {
+        try {
+            const {chatId} = req.params;
+            const {user: authUser} = req;
+            const usersInChat = await ChatService.getUsers(chatId, authUser.id);
+            res.status(200).json({
+                msg: 'Пользователи по чату успешно получены!',
+                users: usersInChat,
+            });
+        } catch (e) {
+            next(e);
+        }
+    }
 
     validate(method) {
         switch (method) {
@@ -72,6 +97,23 @@ class ChatController {
                     body('isAdmin')
                         .not().isEmpty()
                         .withMessage('Роль пользователя обязательна!'),
+                ]
+            }
+            case "deleteUser" : {
+                return [
+                    body('chatId')
+                        .not().isEmpty()
+                        .withMessage('ID чата обязателен!'),
+                    body('userId')
+                        .not().isEmpty()
+                        .withMessage('ID добавляемого пользователя обязателен!'),
+                ]
+            }
+            case "getUsers" : {
+                return [
+                    param('chatId')
+                        .not().isEmpty()
+                        .withMessage('ID чата обязателен!'),
                 ]
             }
         }
