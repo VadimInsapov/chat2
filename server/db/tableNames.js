@@ -36,4 +36,17 @@ module.exports = {
             IS_ADMIN: (short) => short ? `isAdmin` : `user_chat.isAdmin`,
         },
     },
+    MESSAGE: {
+        tableName: `message`,
+        columns: {
+            ID: (short) => short ? `id` : `message.id`,
+            BODY: (short) => short ? `body` : `message.body`,
+            CHAT_ID: (short) => short ? `chatId` : `message.chatId`,
+            USER_ID: (short) => short ? `userId` : `message.userId`,
+            IS_READ: (short) => short ? `isRead` : `message.isRead`,
+            IS_IMPORTANT: (short) => short ? `isImportant` : `message.isImportant`,
+            CREATED_AT: (short) => short ? `createdAt` : `message.createdAt`,
+            UPDATED_AT: (short) => short ? `updatedAt` : `message.updatedAt`,
+        },
+    },
 }
