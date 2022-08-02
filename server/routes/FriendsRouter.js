@@ -1,6 +1,6 @@
 const userController = require("../controllers/UserContoller");
-const validateMiddleware = require("../middlewares/ValidateMiddleware");
-const authMiddleware = require("../middlewares/AuthMiddleware");
+const validateMiddleware = require("../middlewares/http/ValidateMiddleware");
+const authMiddleware = require("../middlewares/http/AuthMiddleware");
 const friendsRouter = require("express").Router();
 
 friendsRouter.post(

@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const {check} = require("express-validator");
-const TokenService = require("../services/TokenService");
-const ApiError = require("../errors/ApiError");
+const TokenService = require("../../services/TokenService");
+const ApiError = require("../../errors/ApiError");
 module.exports = function (req, res, next) {
     try {
         const authHeader = req.headers.authorization;

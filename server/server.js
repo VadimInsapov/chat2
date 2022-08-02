@@ -5,7 +5,8 @@ require('dotenv').config()
 const route = require("./routes/Router");
 const app = express();
 const knexConfig = require('./db/knexConfig');
-const apiErrorMiddleware = require('./middlewares/ApiErrorMiddleware');
+const apiErrorMiddleware = require('./middlewares/http/ApiErrorMiddleware');
+const webSocketAuthMiddleware = require('./middlewares/webSocket/AuthMiddleware');
 const socketio = require("socket.io");
 
 app.use(express.json());
@@ -15,6 +16,7 @@ app.use(apiErrorMiddleware);
 const server = app.listen(process.env.PORT);
 
 const io = socketio(server);
+io.use(webSocketAuthMiddleware);
 io.on("connection", (socket) => {
-    console.log("connection");
+    console.log(socket.user);
 });
