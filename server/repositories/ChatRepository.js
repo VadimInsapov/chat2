@@ -74,6 +74,14 @@ class ChatRepository {
             .returning('*');
         return res;
     }
+
+    static async getChatsByUser(userId) {
+        const res = await knex(USER_CHAT.tableName)
+            .join(CHAT.tableName, CHAT.columns.ID(), USER_CHAT.columns.CHAT_ID())
+            .where({[USER_CHAT.columns.USER_ID()]: userId})
+            .returning('*');
+        return res;
+    }
 }
 
 module.exports = ChatRepository;

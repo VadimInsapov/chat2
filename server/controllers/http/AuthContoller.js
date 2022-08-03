@@ -1,5 +1,5 @@
 const {body} = require('express-validator')
-const UserService = require('../services/UserService');
+const UserService = require('../../services/UserService');
 
 class AuthController {
     async login(req, res, next) {

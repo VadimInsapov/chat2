@@ -1,6 +1,6 @@
 const validateMiddleware = require("../middlewares/http/ValidateMiddleware");
 const chatRouter = require("express").Router();
-const chatController = require('../controllers/ChatContoller');
+const chatController = require('../controllers/http/ChatContoller');
 const authMiddleware = require("../middlewares/http/AuthMiddleware");
 
 chatRouter.post(

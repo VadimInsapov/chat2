@@ -1,4 +1,4 @@
-const userController = require("../controllers/UserContoller");
+const userController = require("../controllers/http/UserContoller");
 const validateMiddleware = require("../middlewares/http/ValidateMiddleware");
 const authMiddleware = require("../middlewares/http/AuthMiddleware");
 const friendsRouter = require("express").Router();

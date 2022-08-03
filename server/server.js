@@ -16,7 +16,4 @@ app.use(apiErrorMiddleware);
 const server = app.listen(process.env.PORT);
 
 const io = socketio(server);
-io.use(webSocketAuthMiddleware);
-io.on("connection", (socket) => {
-    console.log(socket.user);
-});
+require("./io/index")(io);

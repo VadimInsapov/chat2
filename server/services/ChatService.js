@@ -62,6 +62,11 @@ class ChatService {
         const usersInChat = await ChatRepository.getUsers(chatId);
         return usersInChat;
     }
+
+    static async getChatsByUser(authUserId) {
+        const chats = await ChatRepository.getChatsByUser(authUserId);
+        return chats;
+    }
 }
 
 module.exports = ChatService;

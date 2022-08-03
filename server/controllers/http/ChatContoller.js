@@ -1,5 +1,5 @@
 const {body, param} = require('express-validator')
-const ChatService = require("../services/ChatService");
+const ChatService = require("../../services/ChatService");
 
 class ChatController {
     async create(req, res, next) {

@@ -1,5 +1,5 @@
 const {body, param, query} = require('express-validator')
-const UserService = require('../services/UserService');
+const UserService = require('../../services/UserService');
 
 class UserController {
     async addFriend(req, res, next) {

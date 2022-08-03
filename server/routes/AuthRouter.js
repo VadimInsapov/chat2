@@ -1,5 +1,5 @@
 const userRouter = require('express').Router();
-const authController = require('../controllers/AuthContoller');
+const authController = require('../controllers/http/AuthContoller');
 const validateMiddleware = require('../middlewares/http/ValidateMiddleware');
 
 userRouter.post(
