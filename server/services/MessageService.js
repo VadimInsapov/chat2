@@ -3,8 +3,11 @@ const MessageRepository = require("../repositories/MessageRepository");
 const ChatService = require("./ChatService");
 
 class MessageService {
-    static async getMessagesByChat(chatId) {
+    static async getMessages(chatId) {
         return await MessageRepository.getMessagesByChat(chatId);
+    }
+    static async createMessage(body, chatId, user) {
+        return await MessageRepository.createMessage(body, chatId, user.id);
     }
 }
 

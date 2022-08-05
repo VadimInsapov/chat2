@@ -6,7 +6,7 @@ class ConnectionController {
         try {
             const {user: authUser} = socket;
             const chats = await ChatService.getChatsByUser(authUser.id);
-            chats.map((chat) => socket.join(chat.chatId));
+            chats.map((chat) => socket.join((chat.chatId).toString()));
             socket.emit(CHATS_GET, chats);
         } catch (e) {
             ApiErrorSocketMiddleware(e, socket);
