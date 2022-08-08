@@ -9,3 +9,6 @@ export const MIDDLE_BLOCK = 'middle-block';
 export const RECTANGLE_BLOCK = 'rectangle-block';
 export const THICK_BLOCK = 'thick-block';
 export const THIN_BLOCK = 'thin-block';
+
+export const REGISTRATION_ROUTE = '/registration';
+export const LOGIN_ROUTE = '/login';
